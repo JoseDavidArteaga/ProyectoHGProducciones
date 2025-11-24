@@ -1,13 +1,76 @@
-# HGProducciones - Sistema de Venta de Tickets
+# Sistema de Ventas de Entradas HGProducciones
 
-## Descripción del Proyecto
+## Descripción
+Sistema completo para la venta de entradas de eventos (conciertos, teatro, deportes) con autenticación JWT y roles de usuario (ADMIN/USER).
 
-HGProducciones es un sistema web para la compra y venta de tickets de eventos de entretenimiento. El sistema permite a los usuarios ver eventos disponibles, comprar tickets y a los administradores gestionar eventos.
+## Características Principales
+- ✅ **Backend**: Java Spring Boot 3.2.0 con Spring Security
+- ✅ **Frontend**: Angular 17 con diseño HGProducciones
+- ✅ **Autenticación**: JWT con roles ADMIN y USER
+- ✅ **Base de Datos**: MySQL con XAMPP
+- ✅ **Seguridad**: Endpoints protegidos según roles
 
-### Tipos de Eventos Soportados:
-- 🎵 **Conciertos**: Rock, Jazz, Sinfónico, Salsa, etc.
-- 🎭 **Teatro**: Obras clásicas, dramas, comedias
-- ⚽ **Deportivos**: Fútbol, tenis, atletismo
+## Configuración Inicial
+
+### 1. Requisitos Previos
+- Java 17+
+- Node.js 18+
+- XAMPP (para MySQL)
+- Maven 3.6+
+
+### 2. Configuración de Base de Datos (XAMPP)
+
+#### Instalación y Configuración de XAMPP:
+1. Descargar e instalar XAMPP desde https://www.apachefriends.org/
+2. Iniciar XAMPP Control Panel
+3. Activar los servicios **Apache** y **MySQL**
+4. Abrir phpMyAdmin: http://localhost/phpmyadmin/
+
+#### Crear Base de Datos:
+```sql
+-- En phpMyAdmin, ejecutar:
+CREATE DATABASE hgproducciones_db;
+USE hgproducciones_db;
+```
+
+## Usuarios por Defecto
+
+### Usuario Administrador:
+- **Email**: admin@hgproducciones.com
+- **Contraseña**: admin123
+- **Rol**: ADMIN
+- **Permisos**: Crear, editar, eliminar eventos
+
+### Usuario Demo:
+- **Email**: user@hgproducciones.com  
+- **Contraseña**: user123
+- **Rol**: USER
+- **Permisos**: Solo visualización de eventos
+
+## Configuración del Backend
+
+#### Ejecutar Backend:
+```bash
+cd backend
+mvn clean install
+mvn spring-boot:run
+```
+
+## Configuración del Frontend
+
+#### Ejecutar Frontend:
+```bash
+cd frontend
+npm install
+ng serve
+```
+
+## Seguridad Implementada
+
+- **Autenticación JWT**: Tokens seguros con expiración
+- **Autorización por roles**: Endpoints protegidos según permisos
+- **Encriptación de contraseñas**: BCrypt para passwords
+- **CORS configurado**: Para comunicación frontend-backend
 - 🎤 **Comedia**: Stand-up comedy
 - 🎨 **Culturales**: Exposiciones, muestras artísticas
 

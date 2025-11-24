@@ -1,12 +1,12 @@
-package co.edu.unicauca.distribuidos.core.fachadaServices.mapper;
+package co.edu.unicauca.distribuidos.core.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// Configuración de ModelMapper para mapeo de objetos
 @Configuration
-public class mapper {
+public class ModelMapperConfig {
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

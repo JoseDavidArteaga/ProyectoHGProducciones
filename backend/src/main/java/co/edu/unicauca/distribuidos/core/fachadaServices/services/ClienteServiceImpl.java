@@ -9,18 +9,18 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import co.edu.unicauca.distribuidos.core.capaAccesoADatos.models.ClienteEntity;
-import co.edu.unicauca.distribuidos.core.capaAccesoADatos.repositories.UsuarioRepository;
+import co.edu.unicauca.distribuidos.core.capaAccesoADatos.repositories.ClienteRepository;
 import co.edu.unicauca.distribuidos.core.fachadaServices.DTO.ClienteDTO;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
 
-	private UsuarioRepository servicioAccesoBaseDatos;
+	private ClienteRepository servicioAccesoBaseDatos;
 
 	private ModelMapper modelMapper;
 
 	// Constructor con inyección de dependencias
-	public ClienteServiceImpl(UsuarioRepository servicioAccesoBaseDatos, ModelMapper modelMapper) {
+	public ClienteServiceImpl(ClienteRepository servicioAccesoBaseDatos, ModelMapper modelMapper) {
 		this.servicioAccesoBaseDatos = servicioAccesoBaseDatos;
 		this.modelMapper = modelMapper;
 	}
@@ -36,7 +36,10 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Override
 	public ClienteDTO findById(Integer id) {
-		ClienteEntity objCLienteEntity = this.servicioAccesoBaseDatos.findById(id);
+		ClienteEntity objCLienteEntity = this.servicioAccesoBaseDatos.findById(id).orElse(null);
+		if (objCLienteEntity == null) {
+			return null;
+		}
 		ClienteDTO clienteDTO = this.modelMapper.map(objCLienteEntity, ClienteDTO.class);
 		return clienteDTO;
 	}
@@ -52,14 +55,23 @@ public class ClienteServiceImpl implements IClienteService {
  
 	@Override
 	public ClienteDTO update(Integer id, ClienteDTO cliente) {
+		ClienteEntity clienteExistente = this.servicioAccesoBaseDatos.findById(id).orElse(null);
+		if (clienteExistente == null) {
+			return null;
+		}
 		ClienteEntity clienteEntity = this.modelMapper.map(cliente, ClienteEntity.class);
-		ClienteEntity clienteEntityActualizado = this.servicioAccesoBaseDatos.update(id, clienteEntity);
+		clienteEntity.setId(id); // Asegurar que mantiene el ID
+		ClienteEntity clienteEntityActualizado = this.servicioAccesoBaseDatos.save(clienteEntity);
 		ClienteDTO clienteDTO = this.modelMapper.map(clienteEntityActualizado, ClienteDTO.class);
 		return clienteDTO;
 	}
 
 	@Override
 	public boolean delete(Integer id) {
-		return this.servicioAccesoBaseDatos.delete(id);
+		if (this.servicioAccesoBaseDatos.existsById(id)) {
+			this.servicioAccesoBaseDatos.deleteById(id);
+			return true;
+		}
+		return false;
 	}
 }

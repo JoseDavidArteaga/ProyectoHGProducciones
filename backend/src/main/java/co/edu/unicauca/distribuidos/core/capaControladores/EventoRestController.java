@@ -3,6 +3,7 @@ package co.edu.unicauca.distribuidos.core.capaControladores;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +65,7 @@ public class EventoRestController {
 	}
 
 	@PostMapping("/eventos")
+	@PreAuthorize("hasRole('ADMIN')")
 	public EventoDTO crearEvento(@RequestBody EventoDTO evento) {
 		EventoDTO objEvento = null;
 		objEvento = eventoService.save(evento);
@@ -71,6 +73,7 @@ public class EventoRestController {
 	}
 
 	@PutMapping("/eventos/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public EventoDTO actualizarEvento(@RequestBody EventoDTO evento, @PathVariable Integer id) {
 		EventoDTO objEvento = null;
 		EventoDTO eventoActual = eventoService.findById(id);
@@ -81,6 +84,7 @@ public class EventoRestController {
 	}
 
 	@DeleteMapping("/eventos/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public Boolean eliminarEvento(@PathVariable Integer id) {
 		Boolean bandera = false;
 		EventoDTO eventoActual = eventoService.findById(id);
